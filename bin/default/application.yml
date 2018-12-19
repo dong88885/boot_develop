@@ -1,0 +1,38 @@
+server:
+  port: 8080
+
+#spring config
+spring:
+  application:
+    name: boot_develop
+  datasource:
+    //url: jdbc:h2:mem:testdb
+    url: jdbc:h2:file:C:/testDb/h2/boot_develop
+    platform: h2
+    username: sa
+    password:
+    driverClassName: org.h2.Driver
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    //database-platform: h2
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+        show_sql: true
+        use_sql_comments: true
+        format_sql: true
+        default_schema: boot_develop
+  h2:
+    console:
+      enabled: true
+      settings:
+        web-allow-others: true
+      path: h2
+h2:
+  tcp:
+    port: 8180
+    enabled: false
+  web:
+    port: 8280
+    enabled: true
