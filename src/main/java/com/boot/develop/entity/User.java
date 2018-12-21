@@ -10,56 +10,38 @@ import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.Length;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 @Data
 @Entity(name="User")
+@ApiModel("User model entity")
 public class User implements Serializable{
 	
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	@ApiModelProperty("user id primary key")
 	@Id
 	@GeneratedValue
 	int id;
 	
+	@ApiModelProperty(value="username",required=true)
 	@Column(length=255)
 	@Length(min=8,max=32)
 	String userName;
 	
+	@ApiModelProperty(value="password for user",required=true)
 	@NotNull
 	@Column(length=64)
 	String passWord;
 	
+	@ApiModelProperty(value=" user people age",required=false)
 	int age;
 	
 	
-	static interface UserA {
-		
-		String getUserName();
-		
-	}
-	
-	
-   public static class  UserAImpl implements UserA {
-		
-		String userName2;
-		
-		public String getUserName() {
-			
-			
-			return userName2;
-			
-		}
-	}
-	
-	public static void main2(String[] args) {
-		
-		UserA  user=new UserAImpl();
-		
-		user.getUserName();
-	}
 	
 
 }

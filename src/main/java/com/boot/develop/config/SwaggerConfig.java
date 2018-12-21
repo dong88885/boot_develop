@@ -16,10 +16,10 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @Configuration
 @EnableSwagger2
-public class Swagger2Config {
+public class SwaggerConfig {
 	
 	
-	 @Bean
+	    @Bean
 	    public Docket api() {
 
 	        return new Docket(DocumentationType.SWAGGER_2)
@@ -38,7 +38,7 @@ public class Swagger2Config {
 	                "boot Develop",
 	                "1",
 	                null,
-	                new Contact("", "", ""),
+	                new Contact("zhangxd", "iata", "zhangxd@external.iata.org"),
 	                null,
 	                null,
 	                new ArrayList<VendorExtension>()
