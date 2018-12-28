@@ -1,0 +1,11 @@
+{
+  "realm": "boot_develop",
+  "auth-server-url": "http://10.188.21.107:8080/auth",
+  "ssl-required": "external",
+  "resource": "boot_develop",
+  "credentials": {
+    "secret": "47e60aa9-4bbe-4720-ace7-0de18f61f35b"
+  },
+  "use-resource-role-mappings": true,
+  "confidential-port": 0
+}

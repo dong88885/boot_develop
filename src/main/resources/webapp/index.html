@@ -1,0 +1,101 @@
+<html>
+<head>
+<meta charset="UTF-8">
+<title>keyCloak load</title>
+<script type="text/javascript" src="js/keycloak.js" ></script>
+<script type="text/javascript">
+var keycloak = Keycloak();
+
+function loadUserInfo(fn) {
+    keycloak.loadUserInfo().success(function(userInfo) {
+        //output(userInfo);
+        alert("info:"+userInfo.preferred_username);
+    	if(fn)
+    		fn(userInfo);
+    }).error(function() {
+       // output('Failed to load user info');
+    });
+}
+
+keycloak.onAuthSuccess = function () {
+    alert('Auth Success');
+  /*   if (window.sessionStorage["username"]) {
+    	// alert("userInfo:"+JSON.stringify(window.sessionStorage["_user"]));
+    	var user=window.sessionStorage["username"];
+    	alert("userInfo:"+user);
+     }
+     else{
+    	 var userFn=function(user){   
+    		    alert("session store user info:"+user.preferred_username);
+    			 window.sessionStorage.setItem("username",user.preferred_username);
+    			 window.sessionStorage.setItem("token",keycloak.token)
+    			// alert("session store:"+window.sessionStorage.getItem("username"));
+    	 };
+    	 loadUserInfo(userFn);
+     }   */
+};
+
+keycloak.onAuthError = function (errorData) {
+    alert("Auth Error: " + JSON.stringify(errorData) );
+};
+     //token 刷新成功回调
+keycloak.onAuthRefreshSuccess = function () {
+    alert('Auth Refresh Success');
+};
+     //token 刷新失败回调
+keycloak.onAuthRefreshError = function () {
+    alert('Auth Refresh Error');
+};
+     //注销成功回调
+keycloak.onAuthLogout = function () {
+    alert('Auth Logout');
+};
+     //token过期时回调
+keycloak.onTokenExpired = function () {
+    alert('Access token expired.');
+    window.sessionStorage.clear();
+    keycloak.login();
+};
+
+//初始化参数
+var initOptions = {
+    responseMode: 'fragment', //可选值：fragment、query
+    flow: 'hybrid',//可选值：standard、implicit、hybrid
+    //flow: 'standard',
+    onLoad: 'login-required',//'check-sso' //可选值：check-sso、login-required、或不配置
+    checkLoginIframe:true
+    //onLoad:'check-sso'
+};
+keycloak.init(initOptions).success(function(authenticated) {	
+   //alert('Init Success (' + (authenticated ? 'Authenticated' : 'Not Authenticated') + ')');
+
+}).error(function() {
+    alert('Init Error');
+});
+</script>
+<script type="text/javascript">
+/*
+var req = new XMLHttpRequest();
+req.open('GET', oidcProviderConfigUrl, true);
+req.setRequestHeader('Accept', 'application/json');    
+
+req.onreadystatechange = function () {
+    if (req.readyState == 4) {
+        if (req.status == 200 || fileLoaded(req)) {
+            var oidcProviderConfig = JSON.parse(req.responseText);
+            setupOidcEndoints(oidcProviderConfig);
+            promise.setSuccess();
+        } else {
+            promise.setError();
+        }
+    }
+};
+*/
+</script>
+</head>
+<body>
+<label>welcome to test</label>
+<input name="u-name" value="nihao" />
+<button onclick="{ window.sessionStorage.clear();keycloak.logout(); }">退出</button>
+</body>
+</html>

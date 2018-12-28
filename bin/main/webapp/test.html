@@ -1,0 +1,84 @@
+<html>
+<head>
+<meta charset="UTF-8">
+<title>keyCloak load</title>
+<script type="text/javascript" src="js/keycloak.js" ></script>
+<script type="text/javascript">
+
+//getCode url:
+//http://10.188.21.107:8080/auth/realms/boot_develop/protocol/openid-connect/auth?client_id=boot_develop&redirect_uri=http%3A%2F%2F10.140.8.184:8080%2Ftest.html&response_mode=fragment&response_type=code
+//location.hostname,location.origin,location.path,location.port,localhost.hash,location.query
+function getHashCode(){
+	var code=location.hash;
+	if(code.indexOf("code=")>0){
+		code=code.split(",");
+		for(var i=0;i<code.length;i++){
+			if(code[i].indexOf("code=")>0){
+				code=code[i].substr(code[i].indexOf("code=")+5);
+				break;
+			}
+		}
+		console.log("code:"+code);
+	}else
+		console.log("no code get");
+	
+	return code;
+}
+
+function getToken(){
+	
+	var req = new XMLHttpRequest();
+	var token_url="http://10.188.21.107:8080/auth/realms/boot_develop/protocol/openid-connect/token";
+	var param="client_id=boot_develop&grant_type=authorization_code&";
+	    param+="client_secret=47e60aa9-4bbe-4720-ace7-0de18f61f35b&"
+	    param+="code="+getHashCode()+"&";
+	    param+="redirect_uri=http%3A%2F%2F10.140.8.184%3A8080%2Ftest.html";
+	   // token_url+=param;
+	req.open('POST', token_url, true);
+	//req.setRequestHeader("Access-Control-Allow-Origin","10.188.21.107");
+	req.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+	req.setRequestHeader('Authorization', 'Basic ' + btoa("boot_develop" + ':' + "47e60aa9-4bbe-4720-ace7-0de18f61f35b"));
+	req.setRequestHeader('Accept', 'application/json');    
+	req.withCredentials =true;
+	
+	req.onreadystatechange = function () {
+	    if (req.readyState == 4) {
+	        if (req.status == 200 ) {
+	        	 console.log("token:"+req.responseText);
+	             var jsonObj = JSON.parse(req.responseText);
+	              console.log("token:"+jsonObj.access_token);
+	        } else {
+					alert("token get error status:"+req.status);
+	        }
+	    }else{
+	    	
+	    	alert("token get error readyState:"+req.readyState);
+	    	console.log("error response:"+req.responseText);
+	    }
+	};
+	req.onload=function(){
+		console.log("onload:"+req.responseText);
+		
+	}
+	
+	req.onerror=function(){
+		console.log("onerror:"+req.responseText);
+		console.log("onerror readyState:"+req.readyState);
+		
+	}
+	
+	//req.send(param);
+	req.send(null);
+	
+}
+
+
+
+</script>
+</head>
+<body>
+<label>welcome to test</label>
+<input name="u-name" value="nihao" />
+<button onclick="{ getToken(); }">退出</button>
+</body>
+</html>

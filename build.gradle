@@ -24,7 +24,6 @@ plugins {
     id 'io.franzbecker.gradle-lombok' version '1.12'
     id "org.sonarqube" version "2.6"
 }
-}
 
 
 apply plugin: 'java'
@@ -38,6 +37,9 @@ repositories {
     mavenLocal()
 	mavenCentral()
 	jcenter()
+	maven {
+    	url project.hasProperty('nexusPublicRepositoryUrl') ? nexusPublicRepositoryUrl : 'http://nexusinterno.nfedev.accelya.com/repository/maven-public'
+	}
 }
 
 dependencies {
@@ -50,12 +52,19 @@ dependencies {
 	compile('org.springframework.boot:spring-boot-starter-web')
 	compile('org.springframework.boot:spring-boot-devtools')
 	compile('org.springframework.boot:spring-boot-starter-security')
+	compile('org.keycloak:keycloak-spring-boot-starter:4.2.1.Final')
 	compile('io.springfox:springfox-swagger2:2.8.0')
 	compile('io.springfox:springfox-swagger-ui:2.8.0')
 	compile('commons-io:commons-io:2.4')
 	compile('commons-lang:commons-lang:2.6')
 	//compile 'org.springframework.cloud:spring-cloud-starter-openfeign'
 	compile('com.h2database:h2')
+	
+	compile group: 'org.keycloak', name: 'keycloak-admin-client', version: '3.3.0.CR2'
+	compile group: 'org.jboss.resteasy', name: 'resteasy-jaxrs', version: '3.1.4.Final'
+    compile group: 'org.jboss.resteasy', name: 'resteasy-client', version: '3.1.4.Final'
+    compile group: 'org.jboss.resteasy', name: 'resteasy-jackson2-provider', version: '3.1.4.Final'
+    compile group: 'org.jboss.resteasy', name: 'resteasy-multipart-provider', version: '2.2.1.GA'    
 	//runtime('org.postgresql:postgresql')
 	testCompile('org.springframework.boot:spring-boot-starter-test')
     testCompile('commons-io:commons-io:2.6')
