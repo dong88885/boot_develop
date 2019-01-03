@@ -40,20 +40,18 @@ public class UserController {
 	
 
 	
-	 @ApiOperation(value = "add new user")
-	 @ApiResponses(value = {@ApiResponse(code = 200, message = "add success")})
-	 @ApiImplicitParam(name = "user", value = "The user form post body ", required = true,
+	@ApiOperation(value = "add new user")
+	@ApiResponses(value = {@ApiResponse(code = 200, message = "add success")})
+	@ApiImplicitParam(name = "user", value = "The user form post body ", required = true,
 	   dataType="User",dataTypeClass=User.class,paramType="form")
 	@PostMapping("/user/addUser")
 	public ResponseEntity<User> addUser(@Valid @RequestBody User user,Errors errors) {
-		
-		
+				
 		 System.err.println("=====add user:"+user);
 		 System.err.println("=====add user:"+user);
 		 System.err.println("=====add user:"+user);		 
 
-		 
-		
+		 		
 		if(errors.hasErrors()) {
 			
 			 System.err.println("=====has errors user:");		
